@@ -56,11 +56,12 @@ object Warehouse {
     override def store(item: Item): Unit =
       itemList = Cons(item, itemList)
 
-    override def searchItems(tag: String): List[Item] = ???
+    override def searchItems(tag: String): List[Item] =
+      filter(itemList)(i => List.contains(i.tags, tag))
     override def retrieve(code: Int): Option[Item] = ???
     override def remove(item: Item): Unit = ???
     override def contains(itemCode: Int): Boolean =
-      val codeList = map(itemList)( i => i.code)
+      val codeList = map(itemList)(i => i.code)
       List.contains(codeList, itemCode)
 
 

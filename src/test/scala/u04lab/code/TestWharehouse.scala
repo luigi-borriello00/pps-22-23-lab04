@@ -2,6 +2,7 @@ package u04lab.code
 import org.junit.*
 import org.junit.Assert.*
 import u04lab.code.Warehouse.*
+import u04lab.code.List.*
 
 class TestWharehouse:
 
@@ -12,9 +13,17 @@ class TestWharehouse:
   @Test def testContains() =
     assertFalse(warehouse.contains(0))
 
-    /*
-    assertEquals(0, warehouse.size())
-    val book = Book("The Lord of the Rings", "J.R.R. Tolkien", 1954)
-    warehouse.store(book)
-    assertEquals(1, warehouse.size()) */
+  @Test def testStore() =
+    val item = Item(0, "item")
+    warehouse.store(item)
+    assertTrue(warehouse.contains(0))
+
+  @Test def testSearchItems() =
+    val item1 = Item(0, "item1", Cons("tag1", Cons("tag2", Nil())))
+    val item2 = Item(1, "item2", Cons("tag1", Cons("tag3", Nil())))
+    warehouse.store(item1)
+    warehouse.store(item2)
+    assertEquals(Cons(Item(0, "item1", Cons("tag1", Cons("tag2", Nil()))), Nil()), warehouse.searchItems("tag2"))
+    assertEquals(Cons(Item(1, "item2", Cons("tag1", Cons("tag3", Nil()))), Nil()), warehouse.searchItems("tag3"))
+
 
