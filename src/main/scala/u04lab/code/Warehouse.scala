@@ -59,10 +59,10 @@ object Warehouse {
     override def searchItems(tag: String): List[Item] = ???
     override def retrieve(code: Int): Option[Item] = ???
     override def remove(item: Item): Unit = ???
-    override def contains(itemCode: Int): Boolean = ???
+    override def contains(itemCode: Int): Boolean =
+      val codeList = map(itemList)( i => i.code)
+      List.contains(codeList, itemCode)
 
-    def size(): Int =
-      length(itemList)
 
 }
 

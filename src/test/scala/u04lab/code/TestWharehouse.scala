@@ -9,9 +9,12 @@ class TestWharehouse:
   @Test def testCanBeCreated() =
     assertNotNull(warehouse)
 
-  @Test def testStore() =
+  @Test def testContains() =
+    assertFalse(warehouse.contains(0))
+
+    /*
     assertEquals(0, warehouse.size())
     val book = Book("The Lord of the Rings", "J.R.R. Tolkien", 1954)
     warehouse.store(book)
-    assertEquals(1, warehouse.size())
+    assertEquals(1, warehouse.size()) */
 
