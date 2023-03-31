@@ -28,5 +28,8 @@ class TestMinesweeper:
     assertEquals(3, grid.getSize)
     assertEquals(3, grid.getSize)
     assertEquals(9, length(grid.getCells))
-    assertEquals(0, length(List.filter(grid.getCells)(_.isMine)))
+    assertEquals(3, length(grid.getMineCells))
+    assertEquals(0, length(grid.getRevealedCells))
+    
+  
 
