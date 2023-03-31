@@ -2,20 +2,17 @@ package u04lab.polyglot.minesweeper
 
 import u04lab.polyglot.a05b.Logics
 import u04lab.code.{List, Option, Stream}
-import u04lab.polyglot.Pair
 
 import scala.util.Random
 
 trait Grid:
   def getSize: Int
-  def getCell(position: P2d): Option[Cell]
+  def getCell(position: P2d): Cell
   def getCells: List[Cell]
-  def getMineCells: List[Cell]
   def getAdjacentCells(position: P2d): List[Cell]
-  def getRevealedCells: List[Cell]
 
 object Grid:
-  def apply(size: Int): Grid = GridImpl(size)
+  def apply(size: Int, nMines: Int): Grid = GridImpl(size, nMines)
 
   private case class GridImpl(size: Int, val nMines: Int = 3) extends Grid:
     private var cells: List[Cell] = List.empty
@@ -33,13 +30,11 @@ object Grid:
         if List.contains(minePos, P2d(x, y)) then cell.setMine()
 
     override def getSize: Int = size
-    override def getCell(position: P2d): Option[Cell] = List.find(cells)(c => c.getPosition == position)
+    override def getCell(position: P2d): Cell = Option.orElse(List.find(cells)(c => c.getPosition == position), Cell(P2d(0,0)))
     override def getCells: List[Cell] = cells
-    override def getMineCells: List[Cell] = List.filter(cells)(c => c.isMine)
     override def getAdjacentCells(position: P2d): List[Cell] =
       List.filter(cells)(c => c.getPosition.x >= position.x-1 && c.getPosition.x <= position.x+1 &&
         c.getPosition.y >= position.y-1 && c.getPosition.y <= position.y+1)
-    override def getRevealedCells: List[Cell] = List.filter(cells)(c => c.isRevealed)
     override def toString: String = s"Grid($size, $cells)"
 
 
