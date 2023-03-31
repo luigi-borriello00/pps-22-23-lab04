@@ -11,7 +11,7 @@ class TestMinesweeper:
 
   val cell = Cell(P2d(0,0))
   val grid = Grid(3, 1)
-  val logics = Logics(grid, 1)
+  val logics = Logics(3, 1)
 
   @Test def testCell(): Unit =
     assertFalse(cell.isMine)

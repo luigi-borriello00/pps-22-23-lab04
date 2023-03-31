@@ -15,9 +15,10 @@ trait Logics:
   def getMines: List[Cell]
 
 object Logics:
-  def apply(grid: Grid, nMines: Int): Logics = LogicImpl(grid, nMines)
-  // pass nMines to GridImpl
-  private case class LogicImpl(grid: Grid, nMines: Int) extends Logics:
+  def apply(size: Int, nMines: Int): Logics = LogicImpl(size, nMines)
+
+  private case class LogicImpl(size: Int, nMines: Int) extends Logics:
+    private val grid = Grid(size, nMines)
     override def revealCell(cellCoordinates: P2d): Unit = grid.getCell(cellCoordinates).reveal()
 
     override def toggleFlag(cellCoordinates: P2d): Unit = grid.getCell(cellCoordinates).toggleFlag()
