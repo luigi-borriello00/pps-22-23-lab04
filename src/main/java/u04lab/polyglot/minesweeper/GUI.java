@@ -10,7 +10,6 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 public class GUI extends JFrame {
 
@@ -22,7 +21,6 @@ public class GUI extends JFrame {
         this.logics = new LogicsImpl(size, numberOfBombs);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100 * size, 100 * size);
-
         JPanel panel = new JPanel(new GridLayout(size, size));
         this.getContentPane().add(BorderLayout.CENTER, panel);
 
@@ -76,8 +74,6 @@ public class GUI extends JFrame {
     private void quitGame() {
         this.drawBoard();
         for (var entry : this.buttons.entrySet()) {
-
-
             // disable the button
             entry.getKey().setEnabled(false);
             this.drawMineCell(entry.getValue(), entry.getKey());
@@ -85,20 +81,20 @@ public class GUI extends JFrame {
     }
 
     private void drawClickedCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getRevealedCells() == null) {
+        if (this.logics.isARevealedCell(cell.getX(), cell.getY())) {
             button.setEnabled(false);
             this.drawCounterOnCell(cell, button);
         }
     }
 
     private void drawMineCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getMines() == null) {
+        if (this.logics.isAMine(cell.getX(), cell.getY())) {
             button.setText("*");
         }
     }
 
     private void drawCellWithFlag(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getFlaggedCells() == null) {
+        if (this.logics.isAFlaggedCell(cell.getX(), cell.getY())) {
             button.setText("F");
         } else {
             button.setText(" ");
@@ -114,10 +110,8 @@ public class GUI extends JFrame {
 
     private void drawBoard() {
         for (var entry : this.buttons.entrySet()) {
-
             // call the logic here
             final Pair<Integer, Integer> entryCell = entry.getValue();
-
             // if this button has a flag, put the flag
             this.drawCellWithFlag(entryCell, entry.getKey());
             this.drawClickedCell(entryCell, entry.getKey());

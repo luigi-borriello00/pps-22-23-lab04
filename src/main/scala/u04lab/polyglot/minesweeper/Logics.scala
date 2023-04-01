@@ -6,13 +6,13 @@ import u04lab.code.List.*
 import u04lab.polyglot.minesweeper.{Grid, Cell}
 
 trait Logics:
-  def revealCell(cellRow:Int, cellColumn: Int): Unit
+  def revealCell(cellRow: Int, cellColumn: Int): Unit
 
-  def toggleFlag(cellRow:Int, cellColumn: Int): Unit
+  def toggleFlag(cellRow: Int, cellColumn: Int): Unit
 
-  def isAMine(cellRow:Int, cellColumn: Int): Boolean
+  def isAMine(cellRow: Int, cellColumn: Int): Boolean
 
-  def getAdjacentMinesCounter(cellRow:Int, cellColumn: Int): Int
+  def getAdjacentMinesCounter(cellRow: Int, cellColumn: Int): Int
 
   def isThereVictory: Boolean
 
@@ -20,26 +20,25 @@ trait Logics:
 
   def getAllCells: List[Cell]
 
-  def getRevealedCells: List[Cell]
+  def isARevealedCell(cellRow: Int, cellColumn: Int): Boolean
 
-  def getFlaggedCells: List[Cell]
+  def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean
 
-  def getMines: List[Cell]
 
 class LogicsImpl(size: Int, nMines: Int) extends Logics:
   private val grid = Grid(size, nMines)
 
-  override def revealCell(cellRow:Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).reveal()
+  override def revealCell(cellRow: Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).reveal()
 
-  override def toggleFlag(cellRow:Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).toggleFlag()
+  override def toggleFlag(cellRow: Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).toggleFlag()
 
-  override def isAMine(cellRow:Int, cellColumn: Int): Boolean = grid.getCell(P2d(cellRow, cellColumn)).isMine
+  override def isAMine(cellRow: Int, cellColumn: Int): Boolean = grid.getCell(P2d(cellRow, cellColumn)).isMine
 
-  override def getAdjacentMinesCounter(cellRow:Int, cellColumn: Int): Int =
+  override def getAdjacentMinesCounter(cellRow: Int, cellColumn: Int): Int =
     length(filter(grid.getAdjacentCells(P2d(cellRow, cellColumn)))(_.isMine))
 
   override def isThereVictory: Boolean =
-    if length(getRevealedCells) == length(getAllCells) - nMines
+    if length(filter(getAllCells)(_.isRevealed)) == length(getAllCells) - nMines
     then true else false
 
   override def isGameOver: Boolean = if length(filter(getMines)(_.isRevealed)) > 0 then
@@ -47,8 +46,10 @@ class LogicsImpl(size: Int, nMines: Int) extends Logics:
 
   override def getAllCells: List[Cell] = grid.getCells
 
-  override def getRevealedCells: List[Cell] = filter(getAllCells)(_.isRevealed)
+  override def isARevealedCell(cellRow: Int, cellColumn: Int): Boolean =
+    contains(filter(getAllCells)(_.isRevealed), grid.getCell(P2d(cellRow, cellColumn)))
 
-  override def getFlaggedCells: List[Cell] = filter(getAllCells)(_.hasFlag)
+  override def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean =
+    contains(filter(getAllCells)(_.hasFlag), grid.getCell(P2d(cellRow, cellColumn)))
 
-  override def getMines: List[Cell] = filter(getAllCells)(_.isMine)
+  private def getMines: List[Cell] = filter(getAllCells)(_.isMine)
