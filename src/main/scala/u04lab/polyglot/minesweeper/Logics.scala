@@ -36,7 +36,7 @@ class LogicsImpl(size: Int, nMines: Int) extends Logics:
   override def isAMine(cellRow:Int, cellColumn: Int): Boolean = grid.getCell(P2d(cellRow, cellColumn)).isMine
 
   override def getAdjacentMinesCounter(cellRow:Int, cellColumn: Int): Int =
-    length(filter(grid.getCell(P2d(cellRow, cellColumn))))
+    length(filter(grid.getAdjacentCells(P2d(cellRow, cellColumn)))(_.isMine))
 
   override def isThereVictory: Boolean =
     if length(getRevealedCells) == length(getAllCells) - nMines

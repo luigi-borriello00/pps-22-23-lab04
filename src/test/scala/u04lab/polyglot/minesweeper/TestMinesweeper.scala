@@ -36,10 +36,10 @@ class TestMinesweeper:
   @Test def testLogicsBasicBehaviour() =
     val cell = P2d(0, 0)
     assertEquals(0, length(logics.getRevealedCells))
-    logics.revealCell(cell)
+    logics.revealCell(cell.x, cell.y)
     assertEquals(1, length(logics.getRevealedCells))
     assertEquals(0, length(logics.getFlaggedCells))
-    logics.toggleFlag(cell)
+    logics.toggleFlag(cell.x, cell.y)
     assertEquals(1, length(logics.getFlaggedCells))
 
   @Test def testLogicsGameOver() =

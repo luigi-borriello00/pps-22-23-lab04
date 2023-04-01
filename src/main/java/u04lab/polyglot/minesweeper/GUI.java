@@ -10,6 +10,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class GUI extends JFrame {
 
@@ -84,20 +85,20 @@ public class GUI extends JFrame {
     }
 
     private void drawClickedCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getClickedCells().contains(cell)) {
+        if (this.logics.getRevealedCells() == null) {
             button.setEnabled(false);
             this.drawCounterOnCell(cell, button);
         }
     }
 
     private void drawMineCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getMines().contains(cell)) {
+        if (this.logics.getMines() == null) {
             button.setText("*");
         }
     }
 
     private void drawCellWithFlag(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getFlaggedCells().contains(cell)) {
+        if (this.logics.getFlaggedCells() == null) {
             button.setText("F");
         } else {
             button.setText(" ");
@@ -105,8 +106,8 @@ public class GUI extends JFrame {
     }
 
     private void drawCounterOnCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getAdjacentMinesCounter(cell) > 0) {
-            button.setText(String.valueOf(this.logics.getAdjacentMinesCounter(cell)));
+        if (this.logics.getAdjacentMinesCounter(cell.getX(), cell.getY()) > 0) {
+            button.setText(String.valueOf(this.logics.getAdjacentMinesCounter(cell.getX(), cell.getY())));
         }
     }
 
