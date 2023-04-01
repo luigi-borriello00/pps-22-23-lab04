@@ -6,13 +6,13 @@ import u04lab.code.List.*
 import u04lab.polyglot.minesweeper.{Grid, Cell}
 
 trait Logics:
-  def revealCell(cellCoordinates: P2d): Unit
+  def revealCell(cellRow:Int, cellColumn: Int): Unit
 
-  def toggleFlag(cellCoordinates: P2d): Unit
+  def toggleFlag(cellRow:Int, cellColumn: Int): Unit
 
-  def isAMine(cellCoordinates: P2d): Boolean
+  def isAMine(cellRow:Int, cellColumn: Int): Boolean
 
-  def getAdjacentMinesCounter(cellCoordinates: P2d): Int
+  def getAdjacentMinesCounter(cellRow:Int, cellColumn: Int): Int
 
   def isThereVictory: Boolean
 
@@ -29,14 +29,14 @@ trait Logics:
 class LogicsImpl(size: Int, nMines: Int) extends Logics:
   private val grid = Grid(size, nMines)
 
-  override def revealCell(cellCoordinates: P2d): Unit = grid.getCell(cellCoordinates).reveal()
+  override def revealCell(cellRow:Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).reveal()
 
-  override def toggleFlag(cellCoordinates: P2d): Unit = grid.getCell(cellCoordinates).toggleFlag()
+  override def toggleFlag(cellRow:Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).toggleFlag()
 
-  override def isAMine(cellCoordinates: P2d): Boolean = grid.getCell(cellCoordinates).isMine
+  override def isAMine(cellRow:Int, cellColumn: Int): Boolean = grid.getCell(P2d(cellRow, cellColumn)).isMine
 
-  override def getAdjacentMinesCounter(cellCoordinates: P2d): Int =
-    length(filter(grid.getAdjacentCells(cellCoordinates))(_.isMine))
+  override def getAdjacentMinesCounter(cellRow:Int, cellColumn: Int): Int =
+    length(filter(grid.getCell(P2d(cellRow, cellColumn))))
 
   override def isThereVictory: Boolean =
     if length(getRevealedCells) == length(getAllCells) - nMines

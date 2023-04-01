@@ -29,8 +29,8 @@ public class GUI extends JFrame {
             final JButton bt = (JButton) e.getSource();
             final Pair<Integer, Integer> pos = buttons.get(bt);
             // call the logic here to tell it that cell at 'pos' has been selected
-            this.logics.revealCell(new P2d(pos.getX(), pos.getY()));
-            boolean aMineWasFound = this.logics.isAMine(new P2d(pos.getX(), pos.getY()));// call the logic here to tell it that cell at 'pos' has been seleced
+            this.logics.revealCell(pos.getX(), pos.getY());
+            boolean aMineWasFound = this.logics.isAMine(pos.getX(), pos.getY());// call the logic here to tell it that cell at 'pos' has been seleced
             if (aMineWasFound) {
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You lost!!");
@@ -52,7 +52,7 @@ public class GUI extends JFrame {
                 if (bt.isEnabled()) {
                     final Pair<Integer, Integer> pos = buttons.get(bt);
                     // call the logic here to put/remove a flag
-                    logics.toggleFlag(new P2d(pos.getX(), pos.getY()));
+                    logics.toggleFlag(pos.getX(), pos.getY());
 
                 }
                 drawBoard();
@@ -84,7 +84,7 @@ public class GUI extends JFrame {
     }
 
     private void drawClickedCell(Pair<Integer, Integer> cell, JButton button) {
-        if (this.logics.getRevealedCells().contains(cell)) {
+        if (this.logics.getClickedCells().contains(cell)) {
             button.setEnabled(false);
             this.drawCounterOnCell(cell, button);
         }
