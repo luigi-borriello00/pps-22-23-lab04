@@ -23,8 +23,7 @@ trait Logics:
   def isARevealedCell(cellRow: Int, cellColumn: Int): Boolean
 
   def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean
-  
-  def getMines: List[Cell]
+
 
 
 class LogicsImpl(size: Int, nMines: Int) extends Logics:
@@ -54,4 +53,4 @@ class LogicsImpl(size: Int, nMines: Int) extends Logics:
   override def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean =
     contains(filter(getAllCells)(_.hasFlag), grid.getCell(P2d(cellRow, cellColumn)))
 
-  override def getMines: List[Cell] = filter(getAllCells)(_.isMine)
+  private def getMines: List[Cell] = filter(getAllCells)(_.isMine)

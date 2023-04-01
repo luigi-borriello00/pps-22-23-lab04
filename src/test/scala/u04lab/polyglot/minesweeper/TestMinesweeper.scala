@@ -45,7 +45,8 @@ class TestMinesweeper:
   @Test def testLogicsGameOver() =
     assertEquals(false, logics.isGameOver)
     // when a mine is revealed, gameOver
-    val cell = logics.getMines match
+    val mines = filter(logics.getAllCells)(_.isMine)
+    val cell = mines match
       case Cons(c, _) => c
     cell.reveal()
     assertEquals(true, logics.isGameOver)
