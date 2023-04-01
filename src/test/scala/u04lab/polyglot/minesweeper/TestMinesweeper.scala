@@ -1,24 +1,26 @@
 package u04lab.polyglot.minesweeper
+
 import org.junit.Assert.*
 import org.junit.*
-import u04lab.code.List.length
+
+import u04lab.code.List.*
 import u04lab.code.{Option, List}
 
 //import cell from src
-import u04lab.polyglot.minesweeper.*
+import u04lab.polyglot.minesweeper.{Grid, Cell, LogicsImpl}
 
 class TestMinesweeper:
 
-  val cell = Cell(P2d(0,0))
+  val cell = Cell(P2d(0, 0))
   val grid = Grid(3, 1)
-  val logics = Logics(3, 1)
+  val logics = LogicsImpl(3, 1)
 
   @Test def testCell(): Unit =
     assertFalse(cell.isMine)
     assertFalse(cell.hasFlag)
     assertFalse(cell.isRevealed)
     assertEquals(0, cell.getAdjacentMines)
-    assertEquals(P2d(0,0), cell.getPosition)
+    assertEquals(P2d(0, 0), cell.getPosition)
     cell.setMine()
     cell.toggleFlag()
     cell.reveal()
@@ -32,7 +34,7 @@ class TestMinesweeper:
     assertEquals(9, length(grid.getCells))
 
   @Test def testLogicsBasicBehaviour() =
-    val cell = P2d(0,0)
+    val cell = P2d(0, 0)
     assertEquals(0, length(logics.getRevealedCells))
     logics.revealCell(cell)
     assertEquals(1, length(logics.getRevealedCells))
@@ -44,18 +46,19 @@ class TestMinesweeper:
     assertEquals(false, logics.isGameOver)
     // when a mine is revealed, gameOver
     val cell = logics.getMines match
-      case List.Cons(c, _) => c
+      case Cons(c, _) => c
     cell.reveal()
     assertEquals(true, logics.isGameOver)
 
   private def clickAllNotMines(l: List[Cell]): Unit = l match
-    case List.Cons(c, t) if !c.isMine => c.reveal(); clickAllNotMines(t)
-    case List.Cons(c, t) => clickAllNotMines(t)
+    case Cons(c, t) if !c.isMine => c.reveal(); clickAllNotMines(t)
+    case Cons(c, t) => clickAllNotMines(t)
     case _ => ()
+
   @Test def testVictory() =
     assertEquals(false, logics.isThereVictory)
     // when all cells are revealed, victory
-    val cellNotMines = List.filter(logics.getAllCells)(c => !c.isMine)
+    val cellNotMines = filter(logics.getAllCells)(c => !c.isMine)
     clickAllNotMines(cellNotMines)
     assertEquals(true, logics.isThereVictory)
 
