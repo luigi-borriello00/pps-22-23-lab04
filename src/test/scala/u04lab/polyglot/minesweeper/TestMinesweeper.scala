@@ -63,4 +63,8 @@ class TestMinesweeper:
     clickAllNotMines(cellNotMines)
     assertEquals(true, logics.isThereVictory)
 
-
+  @Test def testCombo() =
+    val cellWithNoMineAdjacent = filter(logics.getAllCells)(c => c.getAdjacentMines == 0) match
+      case Cons(c, _) => c
+    logics.revealCell(cellWithNoMineAdjacent.getPosition.x, cellWithNoMineAdjacent.getPosition.y)
+    assertEquals(length(filter(logics.getAllCells)(_.isRevealed)), length(grid.getAdjacentCells(P2d(cellWithNoMineAdjacent.getPosition.x, cellWithNoMineAdjacent.getPosition.y))) + 1)

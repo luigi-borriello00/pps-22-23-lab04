@@ -25,11 +25,12 @@ trait Logics:
   def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean
 
 
-
 class LogicsImpl(size: Int, nMines: Int) extends Logics:
   private val grid = Grid(size, nMines)
 
-  override def revealCell(cellRow: Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).reveal()
+  override def revealCell(cellRow: Int, cellColumn: Int): Unit =
+    grid.getCell(P2d(cellRow, cellColumn)).reveal()
+    checkCombo(cellRow, cellColumn)
 
   override def toggleFlag(cellRow: Int, cellColumn: Int): Unit = grid.getCell(P2d(cellRow, cellColumn)).toggleFlag()
 
@@ -52,5 +53,9 @@ class LogicsImpl(size: Int, nMines: Int) extends Logics:
 
   override def isAFlaggedCell(cellRow: Int, cellColumn: Int): Boolean =
     contains(filter(getAllCells)(_.hasFlag), grid.getCell(P2d(cellRow, cellColumn)))
+
+  private def checkCombo(cellRow: Int, cellColumn: Int): Unit =
+    if getAdjacentMinesCounter(cellRow, cellColumn) == 0 then
+      foreach(grid.getAdjacentCells(P2d(cellRow, cellColumn)))(c => if !c.isRevealed then c.reveal())
 
   private def getMines: List[Cell] = filter(getAllCells)(_.isMine)

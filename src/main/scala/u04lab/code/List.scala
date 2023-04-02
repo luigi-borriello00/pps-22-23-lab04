@@ -71,4 +71,8 @@ object List:
     case _ => Nil()
 
   def take[A](list: List[A], n: Int): List[A] = reverse(drop(reverse(list), length(list) - n))
+  
+  def foreach[A](list: List[A])(f: A => Unit): Unit = list match
+    case Cons(elem, rest) => f(elem); foreach(rest)(f)
+    case _ => ()
 end List
