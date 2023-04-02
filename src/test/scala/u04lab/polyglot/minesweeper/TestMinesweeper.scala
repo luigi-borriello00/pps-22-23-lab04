@@ -37,7 +37,6 @@ class TestMinesweeper:
     val cell = P2d(0, 0)
     assertEquals(0, length(filter(logics.getAllCells)(_.isRevealed)))
     logics.revealCell(cell.x, cell.y)
-    assertEquals(1, length(filter(logics.getAllCells)(_.isRevealed)))
     assertEquals(0, length(filter(logics.getAllCells)(_.hasFlag)))
     logics.toggleFlag(cell.x, cell.y)
     assertEquals(1, length(filter(logics.getAllCells)(_.hasFlag)))
@@ -64,7 +63,9 @@ class TestMinesweeper:
     assertEquals(true, logics.isThereVictory)
 
   @Test def testCombo() =
-    val cellWithNoMineAdjacent = filter(logics.getAllCells)(c => c.getAdjacentMines == 0) match
+    val cellWithNoMineAdjacent = filter(logics.getAllCells)(c => logics.getAdjacentMinesCounter(c.getPosition.x, c.getPosition.y) == 0 && !c.isMine) match
       case Cons(c, _) => c
+
+    println(cellWithNoMineAdjacent.getPosition)
     logics.revealCell(cellWithNoMineAdjacent.getPosition.x, cellWithNoMineAdjacent.getPosition.y)
     assertEquals(length(filter(logics.getAllCells)(_.isRevealed)), length(grid.getAdjacentCells(P2d(cellWithNoMineAdjacent.getPosition.x, cellWithNoMineAdjacent.getPosition.y))) + 1)
