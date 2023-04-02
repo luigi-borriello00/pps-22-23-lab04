@@ -19,7 +19,6 @@ class TestMinesweeper:
     assertFalse(cell.isMine)
     assertFalse(cell.hasFlag)
     assertFalse(cell.isRevealed)
-    assertEquals(0, cell.getAdjacentMines)
     assertEquals(P2d(0, 0), cell.getPosition)
     cell.setMine()
     cell.toggleFlag()

@@ -20,7 +20,7 @@ object Grid:
     private var cells: List[Cell] = List.empty
     private var minePos: List[P2d] = List.Nil()
     private var settedMines = 0
-    val random = Random(42)
+    val random = Random()
 
     while settedMines < nMines do
       val x = random.nextInt(size)

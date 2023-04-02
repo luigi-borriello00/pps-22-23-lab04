@@ -9,8 +9,6 @@ trait Cell:
   def setMine(): Unit
   def toggleFlag(): Unit
   def reveal(): Unit
-  def getAdjacentMines: Int
-  def setAdjacentMines(adjacentMines: Int): Unit
 
 object Cell:
   def apply(position: P2d): Cell = CellImpl(position)
@@ -28,7 +26,4 @@ object Cell:
     override def setMine(): Unit = mine = true
     override def toggleFlag(): Unit = flag = !flag
     override def reveal(): Unit = revealed = true
-    override def getAdjacentMines: Int = adjacentMines
-    override def setAdjacentMines(adjacentMines: Int): Unit = this.adjacentMines = adjacentMines
-
     override def toString: String = s"Cell($position, $mine, $flag, $revealed, $adjacentMines)"
